@@ -123,7 +123,7 @@ Welcome to **Tech Updates** - Your premier destination for the latest in technol
 
 ---
 
-**© 2024 Tech Updates** • [Visit Website](https://ga-techupdates.github.io) • [Privacy Policy](#) • [Terms of Service](#)
+**© 2025 Tech Updates** • [Visit Website](https://ga-techupdates.github.io) • [Privacy Policy](#) • [Terms of Service](#)
 
 </div>
 
