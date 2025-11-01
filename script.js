@@ -1,3 +1,5 @@
+// Authentication and common functionality
+
 // Check if user is logged in
 function checkAuth() {
     const user = localStorage.getItem('techUpdatesUser');
@@ -18,74 +20,67 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set active nav link
     setActiveNavLink();
     
-    // Initialize forms
-    initializeForms();
+    // Initialize menu toggle
+    initMenuToggle();
+    
+    // Initialize login form if on login page
+    if (window.location.pathname.endsWith('login.html')) {
+        initLoginForm();
+    }
 });
 
 // Set active navigation link
 function setActiveNavLink() {
     const currentPage = window.location.pathname.split('/').pop();
-    const navLinks = document.querySelectorAll('.nav-links a');
+    const menuLinks = document.querySelectorAll('#menu a');
     
-    navLinks.forEach(link => {
-        const linkHref = link.getAttribute('href');
-        if (linkHref === currentPage) {
+    menuLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
             link.classList.add('active');
+        }
+    });
+}
+
+// Initialize menu toggle
+function initMenuToggle() {
+    const menuButton = document.querySelector('header button');
+    const menu = document.getElementById('menu');
+    
+    if (menuButton && menu) {
+        menuButton.addEventListener('click', function() {
+            menu.hidden = !menu.hidden;
+        });
+    }
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+        if (menu && !menu.hidden && !menu.contains(event.target) && 
+            menuButton && !menuButton.contains(event.target)) {
+            menu.hidden = true;
         }
     });
 }
 
 // Initialize user session
 function initializeUserSession(user) {
-    // Update user profile in header
-    const userProfileElements = document.querySelectorAll('.user-profile');
-    userProfileElements.forEach(element => {
+    // Update user info in menu if needed
+    const userMenuItems = document.querySelectorAll('.user-menu-item');
+    userMenuItems.forEach(item => {
         if (user.profilePicture) {
-            const img = element.querySelector('.user-avatar') || document.createElement('img');
-            img.src = user.profilePicture;
-            img.alt = `${user.firstName} ${user.lastName}`;
-            img.className = 'user-avatar';
-            
-            const text = element.querySelector('.user-name');
-            if (text) {
-                text.textContent = `${user.firstName} ${user.lastName}`;
-            }
-            
-            if (!element.querySelector('.user-avatar')) {
-                element.prepend(img);
-            }
+            item.innerHTML = `<img src="${user.profilePicture}" alt="${user.firstName}" class="user-avatar"> ${user.firstName} ${user.lastName}`;
         }
     });
-    
-    // Display personalized greeting on index page
-    if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
-        displayPersonalGreeting(user);
-    }
 }
 
-// Display personalized greeting
-function displayPersonalGreeting(user) {
-    const greetingElement = document.getElementById('personal-greeting');
-    if (greetingElement) {
-        greetingElement.innerHTML = `
-            <div class="card">
-                <h3>Hello, <strong>${user.firstName}</strong>!</h3>
-                <p>Welcome back to Tech Updates. Here's what's new in the tech world:</p>
-            </div>
-        `;
-    }
-}
-
-// Initialize forms
-function initializeForms() {
-    // Login form
+// Initialize login form
+function initLoginForm() {
     const loginForm = document.getElementById('loginForm');
+    const profilePictureInput = document.getElementById('profilePicture');
+    
     if (loginForm) {
         loginForm.addEventListener('submit', handleLogin);
     }
     
-    // Profile picture preview
-    const profilePictureInput = document.getElementById('profilePicture');
     if (profilePictureInput) {
         profilePictureInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -103,18 +98,18 @@ function initializeForms() {
     }
 }
 
-// Handle login/signup
+// Handle login form submission
 function handleLogin(e) {
     e.preventDefault();
     
-    const firstName = document.getElementById('firstName')?.value;
-    const lastName = document.getElementById('lastName')?.value;
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const profilePictureInput = document.getElementById('profilePicture');
     
     // Check if profile picture is provided
-    if (profilePictureInput && (!profilePictureInput.files || !profilePictureInput.files[0])) {
+    if (!profilePictureInput.files || !profilePictureInput.files[0]) {
         alert('Profile picture is required!');
         return;
     }
@@ -125,8 +120,8 @@ function handleLogin(e) {
     
     reader.onload = function(event) {
         const userData = {
-            firstName: firstName || 'User',
-            lastName: lastName || '',
+            firstName: firstName,
+            lastName: lastName,
             email: email,
             profilePicture: event.target.result,
             joined: new Date().toISOString()
