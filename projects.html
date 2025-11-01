@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Tech Updates</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div id="logo">TECH <span>UPDATES</span></div>
+        <button>☰</button>
+        <div id="menu" hidden>
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="updates.html"><i class="fas fa-bell"></i> Updates</a>
+            <a href="projects.html" class="active"><i class="fas fa-project-diagram"></i> Projects</a>
+            <a href="notes.html"><i class="fas fa-sticky-note"></i> Notes</a>
+            <a href="dashboard.html"><i class="fas fa-chart-bar"></i> Dashboard</a>
+            <a href="workspace.html"><i class="fas fa-desktop"></i> Workspace</a>
+            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </header>
+    
+    <div id="info">
+        <h1 class="page-title">Our Projects</h1>
+        <p class="page-description">Showcase of projects we've built after intensive studying</p>
+        
+        <div class="content-section">
+            <h2 class="section-title"><i class="fas fa-code"></i> Web Development Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3 class="project-title">Advanced Calculator</h3>
+                    <p class="project-description">A fully functional calculator with scientific functions, history tracking, and responsive design. Built with pure JavaScript.</p>
+                    <a href="projects/calculator/index.html" class="view-project-btn">
+                        <i class="fas fa-external-link-alt"></i> View Project
+                    </a>
+                </div>
+                
+                <div class="project-card">
+                    <h3 class="project-title">Weather Forecast App</h3>
+                    <p class="project-description">Real-time weather application with 5-day forecast, location detection, and beautiful UI. Integrates with OpenWeather API.</p>
+                    <a href="projects/weather-app/index.html" class="view-project-btn">
+                        <i class="fas fa-external-link-alt"></i> View Project
+                    </a>
+                </div>
+                
+                <div class="project-card">
+                    <h3 class="project-title">Smart Todo List</h3>
+                    <p class="project-description">Feature-rich todo application with categories, due dates, priority levels, and local storage persistence.</p>
+                    <a href="projects/todo-list/index.html" class="view-project-btn">
+                        <i class="fas fa-external-link-alt"></i> View Project
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title"><i class="fas fa-mobile-alt"></i> Mobile Applications</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3 class="project-title">Expense Tracker</h3>
+                    <p class="project-description">Mobile-first expense tracking application with charts, categories, and monthly budgeting features.</p>
+                    <a href="projects/expense-tracker/index.html" class="view-project-btn">
+                        <i class="fas fa-external-link-alt"></i> View Project
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title"><i class="fas fa-robot"></i> AI & Machine Learning</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3 class="project-title">AI Chatbot</h3>
+                    <p class="project-description">Intelligent chatbot using natural language processing to answer questions and provide assistance.</p>
+                    <a href="projects/chatbot/index.html" class="view-project-btn">
+                        <i class="fas fa-external-link-alt"></i> View Project
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        &copy; 2025 Tech Updates. All rights reserved
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
