@@ -4,168 +4,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Updates - Tech Updates</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <header>
-        <div class="container">
-            <div class="nav-container">
-                <a href="index.html" class="logo">
-                    <i class="fas fa-satellite-dish"></i>
-                    Tech Updates
-                </a>
-                <nav>
-                    <ul class="nav-links">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="updates.html" class="active">Updates</a></li>
-                        <li><a href="projects.html">Projects</a></li>
-                        <li><a href="notes.html">Notes</a></li>
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                        <li><a href="workspace.html">Workspace</a></li>
-                    </ul>
-                </nav>
-                <div class="user-profile">
-                    <span class="user-name"></span>
-                    <button onclick="logout()" class="btn" style="padding: 8px 15px; font-size: 14px;">Logout</button>
-                </div>
-            </div>
+        <div id="logo">TECH <span>UPDATES</span></div>
+        <button>☰</button>
+        <div id="menu" hidden>
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="updates.html" class="active"><i class="fas fa-bell"></i> Updates</a>
+            <a href="projects.html"><i class="fas fa-project-diagram"></i> Projects</a>
+            <a href="notes.html"><i class="fas fa-sticky-note"></i> Notes</a>
+            <a href="dashboard.html"><i class="fas fa-chart-bar"></i> Dashboard</a>
+            <a href="workspace.html"><i class="fas fa-desktop"></i> Workspace</a>
+            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </header>
-
-    <main class="main-content">
-        <div class="container">
-            <div class="page-header">
-                <h1>Channel Updates</h1>
-                <p>Latest announcements from our WhatsApp channel</p>
+    
+    <div id="info">
+        <h1 class="page-title">Channel Updates</h1>
+        <p class="page-description">Latest announcements from our WhatsApp channel</p>
+        
+        <div class="content-section">
+            <div class="update">
+                <div class="update-content">
+                    <div class="update-text">
+                        We're gonna build a telegram bot, let's name it SOS BOT 7
+                    </div>
+                </div>
+                <div class="update-meta">
+                    <div class="update-reactions">
+                        <span>💬 3</span>
+                    </div>
+                    <div class="update-actions">
+                        <span>20:51</span>
+                        <a href="#" class="view-whatsapp-btn">
+                            <i class="fab fa-whatsapp"></i> View update
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <div class="updates-container">
-                <div class="channel-header">
-                    <div class="channel-info">
-                        <h2>TECH UPDATES | WhatsApp Channel</h2>
-                        <p>Tech Updates WhatsApp Channel - 137 followers</p>
+            <div class="update">
+                <div class="update-content">
+                    <div class="update-text">
+                        First Come, first served<br>
+                        Bot, then AI
                     </div>
                 </div>
-
-                <!-- Update 1 -->
-                <div class="update">
-                    <div class="update-content">
-                        <div class="update-text">
-                            We're gonna build a telegram bot, let's name it SOS BOT 7
-                        </div>
+                <div class="update-meta">
+                    <div class="update-reactions">
+                        <span>💬 7</span>
+                        <span>👍 12</span>
                     </div>
-                    <div class="update-meta">
-                        <div class="update-reactions">
-                            <span>💬 3</span>
-                        </div>
-                        <div class="update-actions">
-                            <span>20:51</span>
-                            <a href="#" class="view-whatsapp-btn">
-                                <i class="fab fa-whatsapp"></i> View update
-                            </a>
-                        </div>
+                    <div class="update-actions">
+                        <span>21:28</span>
+                        <a href="#" class="view-whatsapp-btn">
+                            <i class="fab fa-whatsapp"></i> View update
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                <!-- Update 2 -->
-                <div class="update">
-                    <div class="update-content">
-                        <div class="update-text">
-                            First Come, first served<br>
-                            Bot, then AI
-                        </div>
+            <div class="update">
+                <div class="update-content">
+                    <div class="update-text">
+                        Telegram/Discord AI Bot - Integrate OpenAI to answer questions, summarize links, or moderate chats.
                     </div>
-                    <div class="update-meta">
-                        <div class="update-reactions">
-                            <span>💬 7</span>
-                            <span>👍 12</span>
-                        </div>
-                        <div class="update-actions">
-                            <span>21:28</span>
-                            <a href="#" class="view-whatsapp-btn">
-                                <i class="fab fa-whatsapp"></i> View update
-                            </a>
-                        </div>
+                    <div class="update-text">
+                        Real-Time Collaborative Todo App - Like Notion, but simpler. Use Supabase or Firebase for live updates.
+                    </div>
+                    <div class="update-text">
+                        * 100 Habit Tracking ... Read more
                     </div>
                 </div>
-
-                <!-- Update 3 -->
-                <div class="update">
-                    <div class="update-content">
-                        <div class="update-text">
-                            Telegram/Discord AI Bot - Integrate OpenAI to answer questions, summarize links, or moderate chats.
-                        </div>
-                        <div class="update-text">
-                            Real-Time Collaborative Todo App - Like Notion, but simpler. Use Supabase or Firebase for live updates.
-                        </div>
-                        <div class="update-text">
-                            * 100 Habit Tracking ... Read more
-                        </div>
+                <div class="update-meta">
+                    <div class="update-reactions">
+                        <span>💬 5</span>
                     </div>
-                    <div class="update-meta">
-                        <div class="update-reactions">
-                            <span>💬 5</span>
-                        </div>
-                        <div class="update-actions">
-                            <span>20:45</span>
-                            <a href="#" class="view-whatsapp-btn">
-                                <i class="fab fa-whatsapp"></i> View update
-                            </a>
-                        </div>
+                    <div class="update-actions">
+                        <span>20:45</span>
+                        <a href="#" class="view-whatsapp-btn">
+                            <i class="fab fa-whatsapp"></i> View update
+                        </a>
                     </div>
                 </div>
+            </div>
 
-                <!-- Update 4 -->
-                <div class="update">
-                    <div class="update-content">
-                        <div class="update-text">
-                            Someone reacted with 💬 to an update
-                        </div>
-                    </div>
-                    <div class="update-meta">
-                        <div class="update-reactions">
-                            <span>💬 1</span>
-                        </div>
-                        <div class="update-actions">
-                            <span>20:51</span>
-                            <a href="#" class="view-whatsapp-btn">
-                                <i class="fab fa-whatsapp"></i> View update
-                            </a>
-                        </div>
+            <div class="update">
+                <div class="update-content">
+                    <div class="update-text">
+                        Someone reacted with 💬 to an update
                     </div>
                 </div>
-
-                <!-- Update 5 -->
-                <div class="update">
-                    <div class="update-content">
-                        <div class="update-text">
-                            on user behavior.
-                        </div>
+                <div class="update-meta">
+                    <div class="update-reactions">
+                        <span>💬 1</span>
                     </div>
-                    <div class="update-meta">
-                        <div class="update-reactions">
-                            <span>💬 2</span>
-                            <span>👍 8</span>
-                        </div>
-                        <div class="update-actions">
-                            <span>19:30</span>
-                            <a href="#" class="view-whatsapp-btn">
-                                <i class="fab fa-whatsapp"></i> View update
-                            </a>
-                        </div>
+                    <div class="update-actions">
+                        <span>20:51</span>
+                        <a href="#" class="view-whatsapp-btn">
+                            <i class="fab fa-whatsapp"></i> View update
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="update">
+                <div class="update-content">
+                    <div class="update-text">
+                        on user behavior.
+                    </div>
+                </div>
+                <div class="update-meta">
+                    <div class="update-reactions">
+                        <span>💬 2</span>
+                        <span>👍 8</span>
+                    </div>
+                    <div class="update-actions">
+                        <span>19:30</span>
+                        <a href="#" class="view-whatsapp-btn">
+                            <i class="fab fa-whatsapp"></i> View update
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
-
+    </div>
+    
     <footer>
-        <div class="container">
-            <div class="footer-content">
-                <p>&copy; 2024 Tech Updates. All rights reserved.</p>
-            </div>
-        </div>
+        &copy; 2025 Tech Updates. All rights reserved
     </footer>
 
     <script src="script.js"></script>
