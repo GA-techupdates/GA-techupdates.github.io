@@ -3,104 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech Updates - Home</title>
+    <title>Home - Tech Updates</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <div class="nav-container">
-            <a href="index.html" class="logo">
-                <i class="fas fa-satellite-dish"></i>
-                Tech Updates
-            </a>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="updates.html">Updates</a></li>
-                    <li><a href="projects.html">Projects</a></li>
-                    <li><a href="notes.html">Notes</a></li>
-                    <li><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="workspace.html">Workspace</a></li>
-                </ul>
-            </nav>
+        <div class="container">
+            <div class="nav-container">
+                <a href="index.html" class="logo">
+                    <i class="fas fa-satellite-dish"></i>
+                    Tech Updates
+                </a>
+                <nav>
+                    <ul class="nav-links">
+                        <li><a href="index.html" class="active">Home</a></li>
+                        <li><a href="updates.html">Updates</a></li>
+                        <li><a href="projects.html">Projects</a></li>
+                        <li><a href="notes.html">Notes</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="workspace.html">Workspace</a></li>
+                    </ul>
+                </nav>
+                <div class="user-profile">
+                    <span class="user-name"></span>
+                    <button onclick="logout()" class="btn" style="padding: 8px 15px; font-size: 14px;">Logout</button>
+                </div>
+            </div>
         </div>
     </header>
 
-    <div class="container">
-        <section class="hero">
-            <h1>Welcome to Tech Updates</h1>
-            <p>Your daily source for technology news, insights, and innovations</p>
-            <a href="updates.html" class="cta-button">Get Latest Updates</a>
-        </section>
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Tech Updates Dashboard</h1>
+                <p>Your personalized technology news and updates</p>
+            </div>
 
-        <section class="features">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-newspaper"></i>
-                </div>
-                <h3>Latest News</h3>
-                <p>Stay updated with the most recent developments in technology and innovation</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-rocket"></i>
-                </div>
-                <h3>Tech Projects</h3>
-                <p>Explore innovative projects and cutting-edge technological advancements</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-file-alt"></i>
-                </div>
-                <h3>Technical Notes</h3>
-                <p>Access comprehensive documentation and technical guides</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-chart-bar"></i>
-                </div>
-                <h3>Analytics</h3>
-                <p>Monitor performance and insights through our interactive dashboard</p>
-            </div>
-        </section>
+            <div id="personal-greeting"></div>
 
-        <section class="quick-links">
-            <h2>Quick Access</h2>
-            <div class="links-grid">
-                <a href="updates.html" class="link-card">
-                    <h3>Updates</h3>
-                    <p>Latest technology news and announcements</p>
-                </a>
-                <a href="projects.html" class="link-card">
-                    <h3>Projects</h3>
-                    <p>Ongoing and completed tech projects</p>
-                </a>
-                <a href="notes.html" class="link-card">
-                    <h3>Notes</h3>
-                    <p>Technical documentation and guides</p>
-                </a>
-                <a href="dashboard.html" class="link-card">
-                    <h3>Dashboard</h3>
-                    <p>Analytics and performance metrics</p>
-                </a>
-                <a href="workspace.html" class="link-card">
-                    <h3>Workspace</h3>
-                    <p>Your personalized working environment</p>
-                </a>
-                <a href="aboutme.html" class="link-card">
-                    <h3>Profile Setup</h3>
-                    <p>Personalize your experience</p>
-                </a>
+            <div class="card">
+                <h3>Recent Activity</h3>
+                <p>Welcome to your Tech Updates dashboard. Here you can find the latest technology news, project updates, and important notes.</p>
+                <div style="margin-top: 20px;">
+                    <a href="updates.html" class="btn">View Latest Updates</a>
+                </div>
             </div>
-        </section>
-    </div>
+
+            <div class="card">
+                <h3>Quick Stats</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 15px;">
+                    <div style="text-align: center; padding: 15px; background-color: #E7F3FF; border-radius: 6px;">
+                        <h4 style="color: #1877F2; margin-bottom: 5px;">24</h4>
+                        <p style="color: #65676B; font-size: 14px;">New Updates</p>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background-color: #E7F3FF; border-radius: 6px;">
+                        <h4 style="color: #1877F2; margin-bottom: 5px;">5</h4>
+                        <p style="color: #65676B; font-size: 14px;">Active Projects</p>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background-color: #E7F3FF; border-radius: 6px;">
+                        <h4 style="color: #1877F2; margin-bottom: 5px;">137</h4>
+                        <p style="color: #65676B; font-size: 14px;">Channel Followers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Tech Updates. All rights reserved.</p>
-            <p>Connecting you with the world of technology</p>
+            <div class="footer-content">
+                <p>&copy; 2024 Tech Updates. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
