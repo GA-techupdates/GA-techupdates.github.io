@@ -6,7 +6,7 @@
 
 ### Your Daily Dose of Technology News & Updates
 
-[![WhatsApp Channel](https://img.shields.io/badge/WhatsApp-Channel-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://your-whatsapp-link-here)
+[![WhatsApp Channel](https://img.shields.io/badge/WhatsApp-Channel-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://whatsapp.com/channel/0029Vb6CxnBHQbRztW74fY46)
 [![Website](https://img.shields.io/badge/Website-Visit-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white)](https://ga-techupdates.github.io)
 [![GitHub](https://img.shields.io/badge/GitHub-Repo-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ga-techupdates)
 
@@ -71,11 +71,11 @@ Welcome to **Tech Updates** - Your premier destination for the latest in technol
 
 ### Don't miss out on the latest tech trends!
 
-[![Join WhatsApp](https://img.shields.io/badge/Join-WhatsApp_Channel-25D366?style=for-the-badge&logo=whatsapp&logoColor=white&labelColor=green)](https://your-whatsapp-link-here)
+[![Join WhatsApp](https://img.shields.io/badge/Join-WhatsApp_Channel-25D366?style=for-the-badge&logo=whatsapp&logoColor=white&labelColor=green)](https://whatsapp.com/channel/0029Vb6CxnBHQbRztW74fY46)
 
 **Scan QR Code to Join:**
 <br>
-![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://your-whatsapp-link-here)
+![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://whatsapp.com/channel/0029Vb6CxnBHQbRztW74fY46)
 
 </div>
 
