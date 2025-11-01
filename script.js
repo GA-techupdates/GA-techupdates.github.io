@@ -1,128 +1,149 @@
-// Common functionality for all pages
+// Check if user is logged in
+function checkAuth() {
+    const user = localStorage.getItem('techUpdatesUser');
+    if (!user && !window.location.pathname.endsWith('login.html')) {
+        window.location.href = 'login.html';
+        return null;
+    }
+    return user ? JSON.parse(user) : null;
+}
 
 // Initialize page
 document.addEventListener('DOMContentLoaded', function() {
-    initializePage();
-    setupEventListeners();
-});
-
-function initializePage() {
-    // Set active navigation link
-    setActiveNavLink();
-    
-    // Check for user data and display personalized greeting if on index page
-    if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
-        displayPersonalGreeting();
+    const user = checkAuth();
+    if (user) {
+        initializeUserSession(user);
     }
     
-    // Check if user needs to complete profile
-    checkUserProfile();
-}
+    // Set active nav link
+    setActiveNavLink();
+    
+    // Initialize forms
+    initializeForms();
+});
 
+// Set active navigation link
 function setActiveNavLink() {
-    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const currentPage = window.location.pathname.split('/').pop();
     const navLinks = document.querySelectorAll('.nav-links a');
     
     navLinks.forEach(link => {
-        const linkPage = link.getAttribute('href');
-        if (linkPage === currentPage) {
+        const linkHref = link.getAttribute('href');
+        if (linkHref === currentPage) {
             link.classList.add('active');
         }
     });
 }
 
-function displayPersonalGreeting() {
-    const userGreeting = localStorage.getItem('userGreeting');
-    const userData = localStorage.getItem('techUpdatesUser');
-    
-    if (userGreeting && userData) {
-        const user = JSON.parse(userData);
-        
-        const greetingElement = document.createElement('div');
-        greetingElement.className = 'personal-greeting';
-        greetingElement.innerHTML = `
-            <h2>${userGreeting}</h2>
-            <p>We're glad to have you back! Here are your latest updates:</p>
-        `;
-        
-        const mainContent = document.querySelector('.container');
-        const heroSection = document.querySelector('.hero');
-        
-        if (mainContent && heroSection) {
-            mainContent.insertBefore(greetingElement, heroSection.nextSibling);
-        }
-    }
-}
-
-function checkUserProfile() {
-    // If on aboutme page and user already exists, offer redirect
-    if (window.location.pathname.endsWith('aboutme.html')) {
-        const existingUser = localStorage.getItem('techUpdatesUser');
-        if (existingUser) {
-            if (confirm('You already have a profile setup. Would you like to go to the main page?')) {
-                window.location.href = 'index.html';
+// Initialize user session
+function initializeUserSession(user) {
+    // Update user profile in header
+    const userProfileElements = document.querySelectorAll('.user-profile');
+    userProfileElements.forEach(element => {
+        if (user.profilePicture) {
+            const img = element.querySelector('.user-avatar') || document.createElement('img');
+            img.src = user.profilePicture;
+            img.alt = `${user.firstName} ${user.lastName}`;
+            img.className = 'user-avatar';
+            
+            const text = element.querySelector('.user-name');
+            if (text) {
+                text.textContent = `${user.firstName} ${user.lastName}`;
+            }
+            
+            if (!element.querySelector('.user-avatar')) {
+                element.prepend(img);
             }
         }
+    });
+    
+    // Display personalized greeting on index page
+    if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+        displayPersonalGreeting(user);
     }
 }
 
-function setupEventListeners() {
-    // Terms acceptance for aboutme page
-    const acceptTerms = document.getElementById('acceptTerms');
-    const submitBtn = document.getElementById('submitBtn');
+// Display personalized greeting
+function displayPersonalGreeting(user) {
+    const greetingElement = document.getElementById('personal-greeting');
+    if (greetingElement) {
+        greetingElement.innerHTML = `
+            <div class="card">
+                <h3>Hello, <strong>${user.firstName}</strong>!</h3>
+                <p>Welcome back to Tech Updates. Here's what's new in the tech world:</p>
+            </div>
+        `;
+    }
+}
+
+// Initialize forms
+function initializeForms() {
+    // Login form
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', handleLogin);
+    }
     
-    if (acceptTerms && submitBtn) {
-        acceptTerms.addEventListener('change', function() {
-            submitBtn.disabled = !this.checked;
+    // Profile picture preview
+    const profilePictureInput = document.getElementById('profilePicture');
+    if (profilePictureInput) {
+        profilePictureInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const preview = document.getElementById('profilePreview');
+                    if (preview) {
+                        preview.src = event.target.result;
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
         });
     }
-    
-    // Form submission for aboutme page
-    const userForm = document.getElementById('userForm');
-    if (userForm) {
-        userForm.addEventListener('submit', handleUserRegistration);
-    }
 }
 
-function handleUserRegistration(e) {
+// Handle login/signup
+function handleLogin(e) {
     e.preventDefault();
     
-    const userData = {
-        firstName: document.getElementById('firstName').value,
-        lastName: document.getElementById('lastName').value,
-        username: document.getElementById('username').value,
-        techInterest: document.getElementById('techInterest').value,
-        joined: new Date().toISOString()
-    };
-
-    // Store user data in localStorage
-    localStorage.setItem('techUpdatesUser', JSON.stringify(userData));
-    localStorage.setItem('userGreeting', `Hello <strong>${userData.firstName}</strong>, did you know that`);
-
-    // Redirect to index.html
-    window.location.href = 'index.html';
-}
-
-function denyTerms() {
-    if (confirm('Without accepting the terms, you cannot access personalized features. Are you sure you want to continue?')) {
-        window.location.href = 'index.html';
+    const firstName = document.getElementById('firstName')?.value;
+    const lastName = document.getElementById('lastName')?.value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const profilePictureInput = document.getElementById('profilePicture');
+    
+    // Check if profile picture is provided
+    if (profilePictureInput && (!profilePictureInput.files || !profilePictureInput.files[0])) {
+        alert('Profile picture is required!');
+        return;
     }
+    
+    // Read profile picture as base64
+    const file = profilePictureInput.files[0];
+    const reader = new FileReader();
+    
+    reader.onload = function(event) {
+        const userData = {
+            firstName: firstName || 'User',
+            lastName: lastName || '',
+            email: email,
+            profilePicture: event.target.result,
+            joined: new Date().toISOString()
+        };
+        
+        // Store user data
+        localStorage.setItem('techUpdatesUser', JSON.stringify(userData));
+        
+        // Redirect to index page
+        window.location.href = 'index.html';
+    };
+    
+    reader.readAsDataURL(file);
 }
 
-// Utility function to get user data
-function getUserData() {
-    const userData = localStorage.getItem('techUpdatesUser');
-    return userData ? JSON.parse(userData) : null;
-}
-
-// Utility function to check if user is logged in
-function isUserLoggedIn() {
-    return localStorage.getItem('techUpdatesUser') !== null;
-}
-
-// Utility function to logout user
-function logoutUser() {
+// Logout function
+function logout() {
     localStorage.removeItem('techUpdatesUser');
-    localStorage.removeItem('userGreeting');
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
 }
