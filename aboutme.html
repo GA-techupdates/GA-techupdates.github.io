@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Setup - Tech Updates</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-satellite-dish"></i>
+                Tech Updates
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="updates.html">Updates</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="notes.html">Notes</a></li>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="workspace.html">Workspace</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="form-section">
+            <h1 style="text-align: center; margin-bottom: 24px;">
+                <i class="fas fa-user-cog" style="margin-right: 12px;"></i>
+                Personalize Your Experience
+            </h1>
+            
+            <form id="userForm">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" id="firstName" name="firstName" required placeholder="Enter your first name">
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" id="lastName" name="lastName" required placeholder="Enter your last name">
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required placeholder="Choose a username">
+                </div>
+
+                <div class="form-group">
+                    <label for="techInterest">Primary Tech Interest</label>
+                    <select id="techInterest" name="techInterest">
+                        <option value="">Select your interest</option>
+                        <option value="webdev">Web Development</option>
+                        <option value="mobile">Mobile Development</option>
+                        <option value="ai">Artificial Intelligence</option>
+                        <option value="cloud">Cloud Computing</option>
+                        <option value="cybersecurity">Cybersecurity</option>
+                        <option value="datascience">Data Science</option>
+                        <option value="iot">IoT</option>
+                        <option value="blockchain">Blockchain</option>
+                    </select>
+                </div>
+
+                <div class="terms-section">
+                    <h3>Terms & Conditions</h3>
+                    <div class="terms-content">
+                        <h3>Welcome to Tech Updates</h3>
+                        <p><strong>Important: Browser Storage Notice</strong></p>
+                        <p>Your account data and preferences are stored locally in your web browser using web storage technology. This means:</p>
+                        <ul>
+                            <li>Your data is stored only on your current device and browser</li>
+                            <li>Clearing your browser data will permanently delete your account</li>
+                            <li>Switching browsers or devices will require creating a new account</li>
+                            <li>Your data is not stored on our servers</li>
+                        </ul>
+                        
+                        <h3>Data Collection & Usage</h3>
+                        <p>We collect the following information to personalize your experience:</p>
+                        <ul>
+                            <li>Your name for personalized greetings</li>
+                            <li>Username for account identification</li>
+                            <li>Tech interests for content recommendations</li>
+                            <li>Preferences for workspace customization</li>
+                        </ul>
+                        
+                        <h3>User Responsibilities</h3>
+                        <p>By using Tech Updates, you agree to:</p>
+                        <ul>
+                            <li>Provide accurate information</li>
+                            <li>Keep your browser data intact to maintain access</li>
+                            <li>Use the platform for legitimate purposes</li>
+                            <li>Respect intellectual property rights</li>
+                        </ul>
+                        
+                        <h3>Limitations</h3>
+                        <p>Tech Updates is a client-side application. We cannot:</p>
+                        <ul>
+                            <li>Recover your data if browser storage is cleared</li>
+                            <li>Transfer your data between devices</li>
+                            <li>Provide traditional account recovery options</li>
+                        </ul>
+                        
+                        <p><strong>Last Updated: January 2024</strong></p>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="acceptTerms" name="acceptTerms">
+                        <label for="acceptTerms">I have read and agree to the Terms & Conditions</label>
+                    </div>
+                </div>
+
+                <div style="background-color: var(--tertiary-black); padding: 16px; border-radius: 4px; margin-top: 16px;">
+                    <p style="color: var(--secondary-white); font-size: 0.9rem;">
+                        <i class="fas fa-info-circle" style="margin-right: 8px;"></i>
+                        <strong>Storage Information:</strong> Your account data is stored in your browser's local storage. 
+                        Clearing browser data will delete your account permanently.
+                    </p>
+                </div>
+
+                <div class="buttons">
+                    <button type="button" class="btn btn-deny" onclick="denyTerms()">Deny</button>
+                    <button type="submit" class="btn btn-accept" id="submitBtn" disabled>Accept & Continue</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Tech Updates. All rights reserved.</p>
+            <p>Connecting you with the world of technology</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
