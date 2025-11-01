@@ -75,7 +75,7 @@ Welcome to **Tech Updates** - Your premier destination for the latest in technol
 
 **Scan QR Code to Join:**
 <br>
-![QR Code](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://whatsapp.com/channel/0029Vb6CxnBHQbRztW74fY46)
+[![QR CODE](qrcode.png)](https://whatsapp.com/channel/0029Vb6CxnBHQbRztW74fY46)
 
 </div>
 
@@ -85,7 +85,7 @@ Welcome to **Tech Updates** - Your premier destination for the latest in technol
 
 [![Website](https://img.shields.io/badge/Visit_Our_Website-4285F4?style=flat-square&logo=google-chrome&logoColor=white)](https://ga-techupdates.github.io)
 [![GitHub](https://img.shields.io/badge/GitHub_Repo-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/ga-techupdates)
-[![Email](https://img.shields.io/badge/Contact_Us-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:contact@techupdates.com)
+[![Email](https://img.shields.io/badge/Contact_Us-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:goldenappletechupdates@gmail.com)
 
 </div>
 
@@ -119,16 +119,12 @@ Welcome to **Tech Updates** - Your premier destination for the latest in technol
 
 *Join thousands of tech enthusiasts who trust us for their daily tech dose*
 
-[![Join Now](https://img.shields.io/badge/CLICK_HERE_TO_JOIN-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://your-whatsapp-link-here)
+[![Join Now](https://img.shields.io/badge/CLICK_HERE_TO_JOIN-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://whatsapp.com/channel/0029Vb6CxnBHQbRztW74fY46)
 
 ---
 
 **© 2024 Tech Updates** • [Visit Website](https://ga-techupdates.github.io) • [Privacy Policy](#) • [Terms of Service](#)
 
-*Making Technology Accessible to Everyone*
-
 </div>
 
 ---
-
-*Readme designed for the tech community*
