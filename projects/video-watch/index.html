@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok-Style Video Player</title>
+    <title>Video Player project</title>
     <style>
         * {
             margin: 0;
@@ -43,25 +43,26 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: filter 0.3s ease;
         }
 
         #playlist-panel {
             position: fixed;
             top: 0;
-            right: -350px;
+            left: -350px;
             width: 350px;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
+            background-color: rgba(0, 0, 0, 0.95);
             backdrop-filter: blur(10px);
             z-index: 100;
             padding: 20px;
-            transition: right 0.3s ease;
+            transition: left 0.3s ease;
             overflow-y: auto;
-            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.5);
         }
 
         #playlist-panel.active {
-            right: 0;
+            left: 0;
         }
 
         #playlist-header {
@@ -218,6 +219,63 @@
             opacity: 1;
         }
 
+        .control-indicator {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 50;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .volume-indicator {
+            bottom: 100px;
+            right: 50px;
+        }
+
+        .brightness-indicator {
+            bottom: 100px;
+            left: 50px;
+        }
+
+        .control-indicator.show {
+            opacity: 1;
+        }
+
+        .control-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .control-value {
+            font-size: 1.2rem;
+        }
+
+        .swipe-hint {
+            position: absolute;
+            bottom: 30px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            z-index: 10;
+            pointer-events: none;
+            animation: fadeInOut 3s infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
         #initial-screen {
             position: fixed;
             top: 0;
@@ -269,21 +327,38 @@
         @media (max-width: 768px) {
             #playlist-panel {
                 width: 100%;
-                right: -100%;
+                left: -100%;
+            }
+            
+            .control-indicator {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .volume-indicator {
+                right: 20px;
+            }
+            
+            .brightness-indicator {
+                left: 20px;
             }
         }
     </style>
 </head>
 <body>
     <div id="initial-screen">
-        <h1>TikTok-Style Video Player</h1>
-        <p>Create your video playlist and enjoy a seamless viewing experience with intuitive controls.</p>
-        <button id="start-btn">Select Videos to Start</button>
+        <h1>VidConnect Play</h1>
+        <h3>Smart Fast Data Saving</h3>
+        <br>
+        <p>Swipe right to left to view playlist • Double tap sides to seek • Swipe corners for volume & brightness</p>
+        <button id="start-btn">Start Watching</button>
     </div>
 
     <div id="video-container">
         <!-- Videos will be dynamically added here -->
     </div>
+
+    <div class="swipe-hint">Swipe right to left to open playlist</div>
 
     <div id="playlist-panel">
         <div id="playlist-header">
@@ -291,15 +366,23 @@
             <button id="exit-btn">✕</button>
         </div>
         <ul id="playlist">
-            <li id="empty-playlist">
-                <p>No videos in playlist</p>
-                <button id="add-videos-btn">Add Videos</button>
-            </li>
+            <!-- Playlist items will be added here -->
         </ul>
+        <button id="add-videos-btn">Add More Videos</button>
     </div>
 
     <div class="seek-indicator seek-backward">-10s</div>
     <div class="seek-indicator seek-forward">+10s</div>
+    
+    <div class="control-indicator volume-indicator">
+        <div class="control-icon">🔊</div>
+        <div class="control-value">100%</div>
+    </div>
+    
+    <div class="control-indicator brightness-indicator">
+        <div class="control-icon">☀️</div>
+        <div class="control-value">100%</div>
+    </div>
 
     <input type="file" id="file-input" accept="video/*" multiple>
 
@@ -315,7 +398,27 @@
         const initialScreen = document.getElementById('initial-screen');
         const seekForwardIndicator = document.querySelector('.seek-forward');
         const seekBackwardIndicator = document.querySelector('.seek-backward');
-        const emptyPlaylist = document.getElementById('empty-playlist');
+        const volumeIndicator = document.querySelector('.volume-indicator');
+        const brightnessIndicator = document.querySelector('.brightness-indicator');
+
+        // Sample videos (using free stock videos)
+        const sampleVideos = [
+            {
+                url: 'https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4',
+                name: 'Nature Scene',
+                duration: '0:12'
+            },
+            {
+                url: 'https://assets.mixkit.co/videos/preview/mixkit-white-sand-beach-and-palm-trees-1560-large.mp4',
+                name: 'Beach View',
+                duration: '0:15'
+            },
+            {
+                url: 'https://assets.mixkit.co/videos/preview/mixkit-going-down-a-curved-highway-through-a-mountain-34576-large.mp4',
+                name: 'Mountain Drive',
+                duration: '0:18'
+            }
+        ];
 
         // State variables
         let currentVideoIndex = 0;
@@ -325,13 +428,18 @@
         let startY = 0;
         let lastTap = 0;
         let tapTimeout;
+        let currentVolume = 1.0;
+        let currentBrightness = 1.0;
 
         // Initialize the app
         function init() {
+            // Load sample videos
+            loadSampleVideos();
+            
             // Event listeners
             startBtn.addEventListener('click', () => {
-                fileInput.click();
                 initialScreen.classList.add('hidden');
+                playVideo(0);
             });
 
             addVideosBtn.addEventListener('click', () => {
@@ -357,16 +465,21 @@
             document.addEventListener('keydown', handleKeyDown);
         }
 
+        // Load sample videos
+        function loadSampleVideos() {
+            videos = [...sampleVideos];
+            
+            videos.forEach((video, index) => {
+                createVideoElement(video, index);
+                addToPlaylist(video, index);
+            });
+        }
+
         // Handle file selection
         function handleFileSelect(e) {
             const files = Array.from(e.target.files);
             
             if (files.length === 0) return;
-            
-            // Hide empty playlist message if it's the first time adding videos
-            if (videos.length === 0) {
-                emptyPlaylist.style.display = 'none';
-            }
             
             files.forEach(file => {
                 if (file.type.startsWith('video/')) {
@@ -374,7 +487,7 @@
                     const video = {
                         url: videoUrl,
                         name: file.name,
-                        duration: 0
+                        duration: '0:00'
                     };
                     
                     videos.push(video);
@@ -385,19 +498,14 @@
                     const tempVideo = document.createElement('video');
                     tempVideo.src = videoUrl;
                     tempVideo.addEventListener('loadedmetadata', () => {
-                        video.duration = tempVideo.duration;
-                        updatePlaylistItemDuration(videos.length - 1, formatTime(tempVideo.duration));
+                        video.duration = formatTime(tempVideo.duration);
+                        updatePlaylistItemDuration(videos.length - 1, video.duration);
                     });
                 }
             });
             
             // Reset file input
             fileInput.value = '';
-            
-            // Auto-play the first video if it's the first one added
-            if (videos.length === 1) {
-                playVideo(0);
-            }
         }
 
         // Create video element and add to container
@@ -410,9 +518,14 @@
             videoElement.src = video.url;
             videoElement.playsInline = true;
             videoElement.preload = 'metadata';
+            videoElement.loop = true; // Enable looping
             
             videoItem.appendChild(videoElement);
             videoContainer.appendChild(videoItem);
+            
+            // Set initial volume and brightness
+            videoElement.volume = currentVolume;
+            videoElement.style.filter = `brightness(${currentBrightness})`;
         }
 
         // Add video to playlist
@@ -421,7 +534,7 @@
             playlistItem.className = 'playlist-item';
             playlistItem.dataset.index = index;
             
-            // Create thumbnail (we'll use the first frame as a placeholder)
+            // Create thumbnail
             const thumbnail = document.createElement('img');
             thumbnail.className = 'playlist-item-thumbnail';
             thumbnail.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiByeD0iNSIgZmlsbD0iIzMzMyIvPgo8cGF0aCBkPSJNMjUgMTVWMjVIMzVWMzVIMjVWNDVIMTVWMzVINVYyNUgxNVYxNUgyNVoiIGZpbGw9IiNmZmYiLz4KPC9zdmc+';
@@ -435,7 +548,7 @@
             
             const duration = document.createElement('div');
             duration.className = 'playlist-item-duration';
-            duration.textContent = 'Loading...';
+            duration.textContent = video.duration;
             
             infoDiv.appendChild(title);
             infoDiv.appendChild(duration);
@@ -466,7 +579,7 @@
         function generateThumbnail(videoUrl, imgElement) {
             const video = document.createElement('video');
             video.src = videoUrl;
-            video.currentTime = 1; // Try to get a frame at 1 second
+            video.currentTime = 1;
             
             video.addEventListener('loadeddata', () => {
                 const canvas = document.createElement('canvas');
@@ -490,6 +603,9 @@
 
         // Remove video from playlist
         function removeFromPlaylist(index) {
+            // Don't remove if it's the last video
+            if (videos.length <= 1) return;
+            
             // Remove from videos array
             videos.splice(index, 1);
             
@@ -517,9 +633,6 @@
                 if (videos.length > 0) {
                     const newIndex = Math.min(index, videos.length - 1);
                     scrollToVideo(newIndex);
-                } else {
-                    // Show empty playlist message if no videos left
-                    emptyPlaylist.style.display = 'block';
                 }
             } else if (currentVideoIndex > index) {
                 currentVideoIndex--;
@@ -656,6 +769,16 @@
             }, 500);
         }
 
+        // Show control indicator
+        function showControlIndicator(indicator, value) {
+            const valueElement = indicator.querySelector('.control-value');
+            valueElement.textContent = `${Math.round(value * 100)}%`;
+            indicator.classList.add('show');
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 1000);
+        }
+
         // Touch event handlers for swipe detection
         function handleTouchStart(e) {
             if (e.touches.length === 1) {
@@ -674,30 +797,65 @@
             const diffX = startX - currentX;
             const diffY = startY - currentY;
             
-            // If horizontal swipe is more significant than vertical swipe
-            if (Math.abs(diffX) > Math.abs(diffY)) {
-                e.preventDefault(); // Prevent vertical scroll when swiping horizontally
+            // Check if it's a horizontal swipe for playlist
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                // Left swipe (from right to left) - show playlist
+                if (diffX > 0) {
+                    showPlaylistPanel();
+                    isSwiping = false;
+                    return;
+                }
+            }
+            
+            // Check for vertical swipes in corners for volume and brightness
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            
+            // Bottom right corner for volume
+            if (startX > windowWidth * 0.7 && startY > windowHeight * 0.7) {
+                e.preventDefault();
+                handleVolumeSwipe(diffY);
+            }
+            
+            // Bottom left corner for brightness
+            if (startX < windowWidth * 0.3 && startY > windowHeight * 0.7) {
+                e.preventDefault();
+                handleBrightnessSwipe(diffY);
             }
         }
 
         function handleTouchEnd(e) {
-            if (!isSwiping) return;
-            
-            const endX = e.changedTouches[0].clientX;
-            const endY = e.changedTouches[0].clientY;
-            
-            const diffX = startX - endX;
-            const diffY = startY - endY;
-            
-            // Check if it's a horizontal swipe (more horizontal than vertical movement)
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-                // Right swipe (from left to right) - show playlist
-                if (diffX < 0) {
-                    showPlaylistPanel();
-                }
-            }
-            
             isSwiping = false;
+        }
+
+        // Handle volume swipe
+        function handleVolumeSwipe(diffY) {
+            // Swipe up increases volume, swipe down decreases
+            const change = -diffY / 200; // Normalize the change
+            currentVolume = Math.max(0, Math.min(1, currentVolume + change));
+            
+            // Apply to all videos
+            const videos = document.querySelectorAll('.video-item video');
+            videos.forEach(video => {
+                video.volume = currentVolume;
+            });
+            
+            showControlIndicator(volumeIndicator, currentVolume);
+        }
+
+        // Handle brightness swipe
+        function handleBrightnessSwipe(diffY) {
+            // Swipe up increases brightness, swipe down decreases
+            const change = -diffY / 200; // Normalize the change
+            currentBrightness = Math.max(0.2, Math.min(1.5, currentBrightness + change));
+            
+            // Apply to all videos
+            const videos = document.querySelectorAll('.video-item video');
+            videos.forEach(video => {
+                video.style.filter = `brightness(${currentBrightness})`;
+            });
+            
+            showControlIndicator(brightnessIndicator, currentBrightness);
         }
 
         // Show playlist panel
@@ -763,6 +921,38 @@
                 case 'P':
                     e.preventDefault();
                     showPlaylistPanel();
+                    break;
+                case 'v':
+                    currentVolume = Math.min(1, currentVolume + 0.1);
+                    const videos = document.querySelectorAll('.video-item video');
+                    videos.forEach(video => {
+                        video.volume = currentVolume;
+                    });
+                    showControlIndicator(volumeIndicator, currentVolume);
+                    break;
+                case 'V':
+                    currentVolume = Math.max(0, currentVolume - 0.1);
+                    const videos2 = document.querySelectorAll('.video-item video');
+                    videos2.forEach(video => {
+                        video.volume = currentVolume;
+                    });
+                    showControlIndicator(volumeIndicator, currentVolume);
+                    break;
+                case 'b':
+                    currentBrightness = Math.min(1.5, currentBrightness + 0.1);
+                    const videos3 = document.querySelectorAll('.video-item video');
+                    videos3.forEach(video => {
+                        video.style.filter = `brightness(${currentBrightness})`;
+                    });
+                    showControlIndicator(brightnessIndicator, currentBrightness);
+                    break;
+                case 'B':
+                    currentBrightness = Math.max(0.2, currentBrightness - 0.1);
+                    const videos4 = document.querySelectorAll('.video-item video');
+                    videos4.forEach(video => {
+                        video.style.filter = `brightness(${currentBrightness})`;
+                    });
+                    showControlIndicator(brightnessIndicator, currentBrightness);
                     break;
             }
         }
