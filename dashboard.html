@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Tech Updates</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .user-greeting {
+            background: linear-gradient(135deg, var(--primary-blue), var(--dark-blue));
+            color: var(--white);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .user-greeting h2 {
+            margin-bottom: 5px;
+        }
+
+        .user-greeting p {
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .project-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            background-color: var(--light-gray);
+        }
+
+        .project-content {
+            padding: 20px;
+        }
+
+        .project-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .project-description {
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 12px;
+            color: var(--dark-gray);
+        }
+
+        .project-type {
+            background-color: var(--light-gray);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .project-btn {
+            flex: 1;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .view-btn {
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .view-btn:hover {
+            background-color: var(--dark-blue);
+        }
+
+        .download-btn {
+            background-color: var(--light-gray);
+            color: var(--text-dark);
+        }
+
+        .download-btn:hover {
+            background-color: var(--medium-gray);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--dark-gray);
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: var(--medium-gray);
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .empty-state p {
+            margin-bottom: 25px;
+        }
+
+        .warning-banner {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .warning-banner i {
+            font-size: 20px;
+        }
+
+        .create-project-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 12px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+
+        .create-project-btn:hover {
+            background-color: var(--dark-blue);
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background-color: var(--white);
+            border: 1px solid var(--medium-gray);
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-color: var(--primary-blue);
+        }
+
+        .filter-btn:hover:not(.active) {
+            background-color: var(--light-gray);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="logo">TECH <span>UPDATES</span></div>
+        <button>☰</button>
+        <div id="menu" hidden>
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="updates.html"><i class="fas fa-bell"></i> Updates</a>
+            <a href="projects.html"><i class="fas fa-project-diagram"></i> Projects</a>
+            <a href="notes.html"><i class="fas fa-sticky-note"></i> Notes</a>
+            <a href="dashboard.html" class="active"><i class="fas fa-chart-bar"></i> Dashboard</a>
+            <a href="workspace.html"><i class="fas fa-desktop"></i> Workspace</a>
+            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </header>
+    
+    <div id="info">
+        <div class="dashboard-header">
+            <div>
+                <h1 class="page-title">My Dashboard</h1>
+                <p class="page-description">Manage your personal projects and files</p>
+            </div>
+            <a href="workspace.html" class="create-project-btn">
+                <i class="fas fa-plus"></i> Create New Project
+            </a>
+        </div>
+
+        <!-- Warning Banner -->
+        <div class="warning-banner">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+                <strong>Important:</strong> All your projects are stored in your browser's local storage. 
+                If you clear your browser data or switch browsers, all your projects will be lost. 
+                Make sure to download important files regularly.
+            </div>
+        </div>
+
+        <!-- User Greeting -->
+        <div class="user-greeting" id="userGreeting">
+            <h2>Hello, User!</h2>
+            <p>Welcome to your personal dashboard. Here you can manage all your projects.</p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalProjects">0</div>
+                <div class="stat-label">Total Projects</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="htmlProjects">0</div>
+                <div class="stat-label">HTML Projects</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="cssProjects">0</div>
+                <div class="stat-label">CSS Projects</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="jsProjects">0</div>
+                <div class="stat-label">JavaScript Projects</div>
+            </div>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="content-section">
+            <div class="filter-options">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="html">HTML</button>
+                <button class="filter-btn" data-filter="css">CSS</button>
+                <button class="filter-btn" data-filter="js">JavaScript</button>
+            </div>
+
+            <div id="projectsContainer">
+                <!-- Projects will be dynamically loaded here -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i class="fas fa-folder-open"></i>
+                <h3>No Projects Yet</h3>
+                <p>You haven't created any projects yet. Start by creating your first project in the workspace.</p>
+                <a href="workspace.html" class="create-project-btn">
+                    <i class="fas fa-plus"></i> Create Your First Project
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        &copy; 2025 Tech Updates. All rights reserved
+    </footer>
+
+    <script>
+        // Project management functionality
+        const ProjectManager = {
+            // Get all user projects from localStorage
+            getProjects: function() {
+                const projects = localStorage.getItem('userProjects');
+                return projects ? JSON.parse(projects) : [];
+            },
+
+            // Save projects to localStorage
+            saveProjects: function(projects) {
+                localStorage.setItem('userProjects', JSON.stringify(projects));
+            },
+
+            // Generate a unique ID for projects
+            generateId: function() {
+                return Date.now().toString(36) + Math.random().toString(36).substr(2);
+            },
+
+            // Create a new project
+            createProject: function(name, description, type, code, image = null) {
+                const projects = this.getProjects();
+                const project = {
+                    id: this.generateId(),
+                    name: name,
+                    description: description,
+                    type: type,
+                    code: code,
+                    image: image,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                
+                projects.push(project);
+                this.saveProjects(projects);
+                return project;
+            },
+
+            // Update an existing project
+            updateProject: function(id, updates) {
+                const projects = this.getProjects();
+                const projectIndex = projects.findIndex(p => p.id === id);
+                
+                if (projectIndex !== -1) {
+                    projects[projectIndex] = {
+                        ...projects[projectIndex],
+                        ...updates,
+                        updatedAt: new Date().toISOString()
+                    };
+                    this.saveProjects(projects);
+                    return projects[projectIndex];
+                }
+                
+                return null;
+            },
+
+            // Delete a project
+            deleteProject: function(id) {
+                const projects = this.getProjects();
+                const filteredProjects = projects.filter(p => p.id !== id);
+                this.saveProjects(filteredProjects);
+                return filteredProjects.length !== projects.length;
+            },
+
+            // Download project as file
+            downloadProject: function(project) {
+                const blob = new Blob([project.code], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${project.name}.${project.type}`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            },
+
+            // Get project stats
+            getStats: function() {
+                const projects = this.getProjects();
+                const stats = {
+                    total: projects.length,
+                    html: projects.filter(p => p.type === 'html').length,
+                    css: projects.filter(p => p.type === 'css').length,
+                    js: projects.filter(p => p.type === 'js').length
+                };
+                return stats;
+            }
+        };
+
+        // Dashboard functionality
+        const Dashboard = {
+            init: function() {
+                this.checkAuth();
+                this.loadUserGreeting();
+                this.loadProjects();
+                this.setupEventListeners();
+            },
+
+            checkAuth: function() {
+                const user = localStorage.getItem('techUpdatesUser');
+                if (!user) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Check if user has projects, if not redirect to workspace
+                const projects = ProjectManager.getProjects();
+                if (projects.length === 0) {
+                    // Show a message before redirecting
+                    if (confirm('You don\'t have any projects yet. Would you like to create your first project in the workspace?')) {
+                        window.location.href = 'workspace.html';
+                    }
+                }
+            },
+
+            loadUserGreeting: function() {
+                const user = JSON.parse(localStorage.getItem('techUpdatesUser'));
+                const greetingElement = document.getElementById('userGreeting');
+                
+                if (user && greetingElement) {
+                    greetingElement.innerHTML = `
+                        <h2>Hello, ${user.firstName}!</h2>
+                        <p>Welcome to your personal dashboard. Here you can manage all your projects.</p>
+                    `;
+                }
+            },
+
+            loadProjects: function(filter = 'all') {
+                const projects = ProjectManager.getProjects();
+                const container = document.getElementById('projectsContainer');
+                const emptyState = document.getElementById('emptyState');
+                const stats = ProjectManager.getStats();
+
+                // Update stats
+                document.getElementById('totalProjects').textContent = stats.total;
+                document.getElementById('htmlProjects').textContent = stats.html;
+                document.getElementById('cssProjects').textContent = stats.css;
+                document.getElementById('jsProjects').textContent = stats.js;
+
+                // Show empty state if no projects
+                if (projects.length === 0) {
+                    container.innerHTML = '';
+                    emptyState.style.display = 'block';
+                    return;
+                }
+
+                // Hide empty state
+                emptyState.style.display = 'none';
+
+                // Filter projects
+                let filteredProjects = projects;
+                if (filter !== 'all') {
+                    filteredProjects = projects.filter(p => p.type === filter);
+                }
+
+                // Sort by creation date (newest first)
+                filteredProjects.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+                // Generate project cards
+                container.innerHTML = filteredProjects.map(project => `
+                    <div class="project-card" data-project-id="${project.id}">
+                        <img src="${project.image || 'background.png'}" 
+                             alt="${project.name}" 
+                             class="project-image"
+                             onerror="this.src='background.png'">
+                        <div class="project-content">
+                            <h3 class="project-title">${project.name}</h3>
+                            <p class="project-description">${project.description || 'No description provided.'}</p>
+                            <div class="project-meta">
+                                <span class="project-type">${project.type.toUpperCase()}</span>
+                                <span>${new Date(project.updatedAt).toLocaleDateString()}</span>
+                            </div>
+                            <div class="project-actions">
+                                <a href="workspace.html?project=${project.id}" class="project-btn view-btn">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <button class="project-btn download-btn" onclick="Dashboard.downloadProject('${project.id}')">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            },
+
+            downloadProject: function(projectId) {
+                const projects = ProjectManager.getProjects();
+                const project = projects.find(p => p.id === projectId);
+                
+                if (project) {
+                    // Show warning about browser storage
+                    if (confirm('Remember: Your projects are stored in your browser. If you clear browser data, you will lose all projects. Make sure to download important files regularly.\n\nContinue with download?')) {
+                        ProjectManager.downloadProject(project);
+                    }
+                }
+            },
+
+            setupEventListeners: function() {
+                // Filter buttons
+                const filterButtons = document.querySelectorAll('.filter-btn');
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        filterButtons.forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        this.loadProjects(button.dataset.filter);
+                    });
+                });
+
+                // Menu toggle
+                const menuButton = document.querySelector('header button');
+                const menu = document.getElementById('menu');
+                
+                if (menuButton && menu) {
+                    menuButton.addEventListener('click', function() {
+                        menu.hidden = !menu.hidden;
+                    });
+                }
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (menu && !menu.hidden && !menu.contains(event.target) && 
+                        menuButton && !menuButton.contains(event.target)) {
+                        menu.hidden = true;
+                    }
+                });
+
+                // Set active nav link
+                const currentPage = window.location.pathname.split('/').pop();
+                const menuLinks = document.querySelectorAll('#menu a');
+                
+                menuLinks.forEach(link => {
+                    if (link.getAttribute('href') === currentPage) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        };
+
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            Dashboard.init();
+        });
+
+        function logout() {
+            localStorage.removeItem('techUpdatesUser');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
