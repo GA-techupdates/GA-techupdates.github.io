@@ -1,6 +1,4 @@
-// Updates Management System
 const UpdatesManager = {
-    // Initialize updates system
     init: function() {
         this.checkAuth();
         this.setupEventListeners();
@@ -9,9 +7,9 @@ const UpdatesManager = {
         this.setupGlobalNotifications();
         this.updateUnreadCount();
         this.hideDeletedUpdates();
+        this.setupReactionIcons();
     },
 
-    // Check authentication
     checkAuth: function() {
         const user = localStorage.getItem('techUpdatesUser');
         if (!user) {
@@ -20,29 +18,24 @@ const UpdatesManager = {
         }
     },
 
-    // Get deleted update IDs
     getDeletedUpdates: function() {
         const deleted = localStorage.getItem('deletedUpdates');
         return deleted ? JSON.parse(deleted) : [];
     },
 
-    // Save deleted update IDs
     saveDeletedUpdates: function(deletedIds) {
         localStorage.setItem('deletedUpdates', JSON.stringify(deletedIds));
     },
 
-    // Get read update IDs
     getReadUpdates: function() {
         const read = localStorage.getItem('readUpdates');
         return read ? JSON.parse(read) : [];
     },
 
-    // Save read update IDs
     saveReadUpdates: function(readIds) {
         localStorage.setItem('readUpdates', JSON.stringify(readIds));
     },
 
-    // Mark update as read
     markAsRead: function(updateId) {
         const readIds = this.getReadUpdates();
         if (!readIds.includes(updateId)) {
@@ -52,7 +45,6 @@ const UpdatesManager = {
         }
     },
 
-    // Mark all updates as read
     markAllAsRead: function() {
         const updateElements = document.querySelectorAll('.update:not(.deleted)');
         const readIds = [];
@@ -67,7 +59,6 @@ const UpdatesManager = {
         this.updateUnreadCount();
     },
 
-    // Delete an update
     deleteUpdate: function(updateId) {
         if (!confirm('Are you sure you want to delete this update? This action cannot be undone.')) {
             return;
@@ -78,7 +69,6 @@ const UpdatesManager = {
             deletedIds.push(updateId);
             this.saveDeletedUpdates(deletedIds);
             
-            // Hide the update immediately
             const updateElement = document.querySelector(`[data-update-id="${updateId}"]`);
             if (updateElement) {
                 updateElement.classList.add('deleted');
@@ -89,7 +79,6 @@ const UpdatesManager = {
         }
     },
 
-    // Hide updates that were previously deleted
     hideDeletedUpdates: function() {
         const deletedIds = this.getDeletedUpdates();
         deletedIds.forEach(updateId => {
@@ -101,7 +90,6 @@ const UpdatesManager = {
         this.checkEmptyState();
     },
 
-    // Update unread count badge
     updateUnreadCount: function() {
         const updateElements = document.querySelectorAll('.update:not(.deleted)');
         const readIds = this.getReadUpdates();
@@ -125,19 +113,16 @@ const UpdatesManager = {
         }
     },
 
-    // Show empty state
     showEmptyState: function() {
         document.getElementById('emptyUpdates').style.display = 'block';
         document.getElementById('updatesContainer').style.display = 'none';
     },
 
-    // Hide empty state
     hideEmptyState: function() {
         document.getElementById('emptyUpdates').style.display = 'none';
         document.getElementById('updatesContainer').style.display = 'block';
     },
 
-    // Check if updates container is empty
     checkEmptyState: function() {
         const visibleUpdates = document.querySelectorAll('.update:not(.deleted)');
         
@@ -148,9 +133,17 @@ const UpdatesManager = {
         }
     },
 
-    // Setup event listeners
+    setupReactionIcons: function() {
+        const reactions = document.querySelectorAll('.reaction');
+        reactions.forEach(reaction => {
+            const count = reaction.querySelector('.reaction-count');
+            if (count) {
+                reaction.innerHTML = `<i class="fas fa-heart"></i> ${count.textContent}`;
+            }
+        });
+    },
+
     setupEventListeners: function() {
-        // Scroll to bottom button
         document.getElementById('scrollToBottom').addEventListener('click', () => {
             window.scrollTo({
                 top: document.body.scrollHeight,
@@ -158,7 +151,6 @@ const UpdatesManager = {
             });
         });
 
-        // Delete buttons
         document.querySelectorAll('.delete-update-btn').forEach(button => {
             button.addEventListener('click', (e) => {
                 const updateId = e.target.closest('.delete-update-btn').getAttribute('data-update-id');
@@ -166,12 +158,10 @@ const UpdatesManager = {
             });
         });
 
-        // Mark all as read when clicking unread badge
         document.getElementById('unreadBadge').addEventListener('click', () => {
             this.markAllAsRead();
         });
 
-        // Menu toggle
         const menuButton = document.querySelector('header button');
         const menu = document.getElementById('menu');
         
@@ -181,7 +171,6 @@ const UpdatesManager = {
             });
         }
         
-        // Close menu when clicking outside
         document.addEventListener('click', function(event) {
             if (menu && !menu.hidden && !menu.contains(event.target) && 
                 menuButton && !menuButton.contains(event.target)) {
@@ -189,7 +178,6 @@ const UpdatesManager = {
             }
         });
 
-        // Set active nav link
         const currentPage = window.location.pathname.split('/').pop();
         const menuLinks = document.querySelectorAll('#menu a');
         
@@ -200,7 +188,6 @@ const UpdatesManager = {
         });
     },
 
-    // Setup Intersection Observer for marking updates as read
     setupScrollObserver: function() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -214,14 +201,12 @@ const UpdatesManager = {
             threshold: 0.5
         });
 
-        // Observe all unread update elements
         const unreadUpdates = document.querySelectorAll('.update.unread:not(.deleted)');
         unreadUpdates.forEach(element => {
             observer.observe(element);
         });
     },
 
-    // Check for new updates
     checkForNewUpdates: function() {
         const lastUpdateCheck = localStorage.getItem('lastUpdateCheck');
         const now = Date.now();
@@ -233,21 +218,17 @@ const UpdatesManager = {
         localStorage.setItem('lastUpdateCheck', now.toString());
     },
 
-    // Show notification banner
     showNotificationBanner: function() {
         const banner = document.getElementById('notificationBanner');
         banner.style.display = 'flex';
         
-        // Auto-hide after 5 seconds
         setTimeout(() => {
             banner.style.display = 'none';
         }, 5000);
 
-        // Also show browser notification if permission is granted
         this.showBrowserNotification();
     },
 
-    // Show browser notification
     showBrowserNotification: function() {
         if ('Notification' in window && Notification.permission === 'granted') {
             new Notification('Tech Updates', {
@@ -258,9 +239,7 @@ const UpdatesManager = {
         }
     },
 
-    // Setup global notifications
     setupGlobalNotifications: function() {
-        // Request notification permission if not already set
         if ('Notification' in window && Notification.permission === 'default') {
             Notification.requestPermission().then(permission => {
                 if (permission === 'granted') {
@@ -269,28 +248,32 @@ const UpdatesManager = {
             });
         }
 
-        // Check for new updates every 5 minutes
         setInterval(() => {
             this.checkForNewUpdates();
         }, 300000);
+    },
+
+    resetUpdates: function() {
+        localStorage.removeItem('deletedUpdates');
+        localStorage.removeItem('readUpdates');
+        localStorage.removeItem('lastUpdateCheck');
+        location.reload();
     }
 };
 
-// Request notification permission on page load
 if ('Notification' in window && Notification.permission === 'default') {
     Notification.requestPermission();
 }
 
-// Initialize updates manager when page loads
 document.addEventListener('DOMContentLoaded', function() {
     UpdatesManager.init();
 });
 
-// Export for global access
 window.UpdatesManager = UpdatesManager;
 
-// Logout function
 function logout() {
-    localStorage.removeItem('techUpdatesUser');
-    window.location.href = 'login.html';
+    if (confirm('Are you sure you want to logout? All your deleted updates will be restored when you login again.')) {
+        localStorage.removeItem('techUpdatesUser');
+        window.location.href = 'login.html';
+    }
 }
