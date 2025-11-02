@@ -138,7 +138,7 @@ const UpdatesManager = {
         reactions.forEach(reaction => {
             const count = reaction.querySelector('.reaction-count');
             if (count) {
-                reaction.innerHTML = `<i class="fas fa-heart"></i> ${count.textContent}`;
+                reaction.innerHTML = `<i class="fas fa-smile"></i> ${count.textContent}`;
             }
         });
     },
