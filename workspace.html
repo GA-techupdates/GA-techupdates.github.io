@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workspace - Tech Updates</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .workspace-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            height: calc(100vh - 140px);
+        }
+
+        .tools-sidebar {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        .editor-main {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .editor-tabs {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .tab-btn {
+            padding: 8px 15px;
+            border: 1px solid var(--medium-gray);
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            border-color: var(--primary-blue);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .document-creator {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .code-editor {
+            width: 100%;
+            height: 400px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            padding: 15px;
+            resize: vertical;
+            background-color: var(--light-gray);
+        }
+
+        .preview-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            height: 500px;
+            overflow: auto;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .tool-card {
+            background-color: var(--light-gray);
+            border-radius: 6px;
+            padding: 15px;
+            transition: transform 0.2s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .tool-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            background-color: var(--primary-blue);
+            color: var(--white);
+        }
+
+        .tool-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .tool-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-size: 14px;
+            padding: 5px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .tool-link:hover {
+            background-color: var(--secondary-blue);
+        }
+
+        .project-image-upload {
+            margin: 15px 0;
+        }
+
+        .image-preview {
+            width: 100%;
+            max-width: 200px;
+            height: 120px;
+            border: 2px dashed var(--medium-gray);
+            border-radius: 6px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-secondary {
+            background-color: var(--medium-gray);
+            color: var(--text-dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--dark-gray);
+        }
+
+        .compiler-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            height: 600px;
+        }
+
+        .compiler-header {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .compiler-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .compiler-editor {
+            width: 100%;
+            height: 500px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            border: none;
+            padding: 20px;
+            resize: none;
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+        }
+
+        @media (max-width: 1024px) {
+            .workspace-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .tools-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="logo">TECH <span>UPDATES</span></div>
+        <button>☰</button>
+        <div id="menu" hidden>
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="updates.html"><i class="fas fa-bell"></i> Updates</a>
+            <a href="projects.html"><i class="fas fa-project-diagram"></i> Projects</a>
+            <a href="notes.html"><i class="fas fa-sticky-note"></i> Notes</a>
+            <a href="dashboard.html"><i class="fas fa-chart-bar"></i> Dashboard</a>
+            <a href="workspace.html" class="active"><i class="fas fa-desktop"></i> Workspace</a>
+            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </header>
+    
+    <div id="info">
+        <div class="page-header">
+            <h1>Development Workspace</h1>
+            <p>Create and edit your projects with our integrated tools</p>
+        </div>
+
+        <div class="warning-banner" style="background-color: #fff3cd; border: 1px solid #ffeaa7; color: #856404; padding: 15px; border-radius: 6px; margin-bottom: 25px;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <strong>Important:</strong> All your work is stored in your browser's local storage. 
+            Clearing browser data will permanently delete your projects. Download important files regularly.
+        </div>
+
+        <div class="workspace-container">
+            <!-- Tools Sidebar -->
+            <div class="tools-sidebar">
+                <h3><i class="fas fa-tools"></i> Development Tools</h3>
+                
+                <div class="tools-grid">
+                    <!-- HTML/CSS/JS Tools -->
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <div class="tool-icon">
+                                <i class="fab fa-html5"></i>
+                            </div>
+                            <h4>Web Development</h4>
+                        </div>
+                        <div class="tool-links">
+                            <a href="https://codepen.io" target="_blank" class="tool-link">
+                                <i class="fab fa-codepen"></i> CodePen
+                            </a>
+                            <a href="https://jsfiddle.net" target="_blank" class="tool-link">
+                                <i class="fab fa-jsfiddle"></i> JSFiddle
+                            </a>
+                            <a href="https://codesandbox.io" target="_blank" class="tool-link">
+                                <i class="fas fa-cube"></i> CodeSandbox
+                            </a>
+                            <a href="https://replit.com" target="_blank" class="tool-link">
+                                <i class="fas fa-code"></i> Replit
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Code Editors -->
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <div class="tool-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h4>Online Editors</h4>
+                        </div>
+                        <div class="tool-links">
+                            <a href="https://vscode.dev" target="_blank" class="tool-link">
+                                <i class="fas fa-code"></i> VS Code Online
+                            </a>
+                            <a href="https://stackblitz.com" target="_blank" class="tool-link">
+                                <i class="fas fa-bolt"></i> StackBlitz
+                            </a>
+                            <a href="https://codepen.io/pen" target="_blank" class="tool-link">
+                                <i class="fab fa-codepen"></i> CodePen Editor
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Compilers -->
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <div class="tool-icon">
+                                <i class="fas fa-cogs"></i>
+                            </div>
+                            <h4>Compilers & IDEs</h4>
+                        </div>
+                        <div class="tool-links">
+                            <a href="https://www.onlinegdb.com" target="_blank" class="tool-link">
+                                <i class="fas fa-terminal"></i> Online GDB
+                            </a>
+                            <a href="https://www.programiz.com" target="_blank" class="tool-link">
+                                <i class="fas fa-laptop-code"></i> Programiz
+                            </a>
+                            <a href="https://ideone.com" target="_blank" class="tool-link">
+                                <i class="fas fa-code"></i> Ideone
+                            </a>
+                            <a href="https://www.jdoodle.com" target="_blank" class="tool-link">
+                                <i class="fas fa-play-circle"></i> JDoodle
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Documentation -->
+                    <div class="tool-card">
+                        <div class="tool-header">
+                            <div class="tool-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <h4>Documentation</h4>
+                        </div>
+                        <div class="tool-links">
+                            <a href="https://developer.mozilla.org" target="_blank" class="tool-link">
+                                <i class="fab fa-mdn"></i> MDN Web Docs
+                            </a>
+                            <a href="https://devdocs.io" target="_blank" class="tool-link">
+                                <i class="fas fa-book-open"></i> DevDocs
+                            </a>
+                            <a href="https://www.w3schools.com" target="_blank" class="tool-link">
+                                <i class="fas fa-graduation-cap"></i> W3Schools
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Editor Area -->
+            <div class="editor-main">
+                <!-- Editor Tabs -->
+                <div class="editor-tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" data-tab="document">Document Creator</button>
+                        <button class="tab-btn" data-tab="compiler">HTML Compiler</button>
+                        <button class="tab-btn" data-tab="preview">Live Preview</button>
+                    </div>
+
+                    <!-- Document Creator Tab -->
+                    <div class="tab-content active" id="document-tab">
+                        <div class="document-creator">
+                            <h3><i class="fas fa-file-code"></i> Create New Document</h3>
+                            
+                            <form id="documentForm">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="projectName">Project Name *</label>
+                                        <input type="text" id="projectName" class="form-control" required placeholder="Enter project name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fileExtension">File Extension *</label>
+                                        <select id="fileExtension" class="form-control" required>
+                                            <option value="">Select file type</option>
+                                            <option value="html">.html (Web Page)</option>
+                                            <option value="css">.css (Stylesheet)</option>
+                                            <option value="js">.js (JavaScript)</option>
+                                            <option value="txt">.txt (Text File)</option>
+                                            <option value="json">.json (JSON Data)</option>
+                                            <option value="md">.md (Markdown)</option>
+                                            <option value="xml">.xml (XML Document)</option>
+                                            <option value="py">.py (Python Script)</option>
+                                            <option value="php">.php (PHP Script)</option>
+                                            <option value="java">.java (Java File)</option>
+                                            <option value="cpp">.cpp (C++ File)</option>
+                                            <option value="c">.c (C File)</option>
+                                            <option value="cs">.cs (C# File)</option>
+                                            <option value="rb">.rb (Ruby File)</option>
+                                            <option value="go">.go (Go File)</option>
+                                            <option value="rs">.rs (Rust File)</option>
+                                            <option value="swift">.swift (Swift File)</option>
+                                            <option value="kt">.kt (Kotlin File)</option>
+                                            <option value="dart">.dart (Dart File)</option>
+                                            <option value="r">.r (R Script)</option>
+                                            <option value="sql">.sql (SQL File)</option>
+                                            <option value="sh">.sh (Shell Script)</option>
+                                            <option value="yaml">.yaml (YAML File)</option>
+                                            <option value="toml">.toml (TOML File)</option>
+                                            <option value="ini">.ini (Config File)</option>
+                                            <option value="env">.env (Environment File)</option>
+                                            <option value="dockerfile">Dockerfile</option>
+                                            <option value="gitignore">.gitignore</option>
+                                            <option value="license">LICENSE</option>
+                                            <option value="readme">README.md</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="projectDescription">Project Description</label>
+                                    <textarea id="projectDescription" class="form-control" rows="3" placeholder="Describe your project..."></textarea>
+                                </div>
+
+                                <div class="project-image-upload">
+                                    <label>Project Image (Optional)</label>
+                                    <div class="file-input-wrapper">
+                                        <input type="file" id="projectImage" accept="image/*">
+                                        <label for="projectImage" class="file-input-label">
+                                            <i class="fas fa-image"></i> Choose Image
+                                        </label>
+                                    </div>
+                                    <div class="image-preview" id="imagePreview">
+                                        <span>No image selected</span>
+                                    </div>
+                                    <small class="text-muted">If no image is selected, the default background.png will be used</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="documentContent">Document Content *</label>
+                                    <textarea id="documentContent" class="code-editor" placeholder="Write your code or content here..."></textarea>
+                                </div>
+
+                                <div class="action-buttons">
+                                    <button type="submit" class="btn">
+                                        <i class="fas fa-save"></i> Save to Dashboard
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" id="downloadDocument">
+                                        <i class="fas fa-download"></i> Download File
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" id="clearDocument">
+                                        <i class="fas fa-broom"></i> Clear
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- HTML Compiler Tab -->
+                    <div class="tab-content" id="compiler-tab">
+                        <div class="compiler-container">
+                            <div class="compiler-header">
+                                <h4 class="m-0"><i class="fas fa-code"></i> HTML Compiler</h4>
+                                <div class="compiler-actions">
+                                    <button class="btn" style="background: var(--white); color: var(--primary-blue); padding: 5px 10px; font-size: 12px;">
+                                        <i class="fas fa-play"></i> Run
+                                    </button>
+                                    <button class="btn" style="background: var(--white); color: var(--primary-blue); padding: 5px 10px; font-size: 12px;">
+                                        <i class="fas fa-sync"></i> Format
+                                    </button>
+                                </div>
+                            </div>
+                            <textarea class="compiler-editor" placeholder="Write your HTML code here...">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My Project&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="container"&gt;
+        &lt;h1&gt;Welcome to My Project&lt;/h1&gt;
+        &lt;p&gt;This is a sample HTML page created in the workspace.&lt;/p&gt;
+        &lt;button onclick="alert('Hello World!')"&gt;Click Me&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;script&gt;
+        console.log('Page loaded successfully!');
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Live Preview Tab -->
+                    <div class="tab-content" id="preview-tab">
+                        <div class="preview-container">
+                            <h4><i class="fas fa-eye"></i> Live Preview</h4>
+                            <p class="text-muted">Preview will appear here when you run your code in the HTML Compiler tab.</p>
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle"></i>
+                                Switch to the HTML Compiler tab and click "Run" to see your code in action.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        &copy; 2025 Tech Updates. All rights reserved
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Project management functionality
+        const ProjectManager = {
+            getProjects: function() {
+                const projects = localStorage.getItem('userProjects');
+                return projects ? JSON.parse(projects) : [];
+            },
+
+            saveProjects: function(projects) {
+                localStorage.setItem('userProjects', JSON.stringify(projects));
+            },
+
+            generateId: function() {
+                return Date.now().toString(36) + Math.random().toString(36).substr(2);
+            },
+
+            createProject: function(name, description, type, code, image = null) {
+                const projects = this.getProjects();
+                const project = {
+                    id: this.generateId(),
+                    name: name,
+                    description: description,
+                    type: type,
+                    code: code,
+                    image: image,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+                
+                projects.push(project);
+                this.saveProjects(projects);
+                return project;
+            }
+        };
+
+        // Workspace functionality
+        const Workspace = {
+            init: function() {
+                this.checkAuth();
+                this.setupEventListeners();
+                this.setupTabs();
+            },
+
+            checkAuth: function() {
+                const user = localStorage.getItem('techUpdatesUser');
+                if (!user) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+            },
+
+            setupTabs: function() {
+                const tabButtons = document.querySelectorAll('.tab-btn');
+                const tabContents = document.querySelectorAll('.tab-content');
+
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        // Remove active class from all buttons and contents
+                        tabButtons.forEach(btn => btn.classList.remove('active'));
+                        tabContents.forEach(content => content.classList.remove('active'));
+
+                        // Add active class to clicked button and corresponding content
+                        button.classList.add('active');
+                        const tabId = button.getAttribute('data-tab') + '-tab';
+                        document.getElementById(tabId).classList.add('active');
+                    });
+                });
+            },
+
+            setupEventListeners: function() {
+                // Document form submission
+                const documentForm = document.getElementById('documentForm');
+                if (documentForm) {
+                    documentForm.addEventListener('submit', this.handleDocumentSave.bind(this));
+                }
+
+                // Download document
+                const downloadBtn = document.getElementById('downloadDocument');
+                if (downloadBtn) {
+                    downloadBtn.addEventListener('click', this.downloadDocument.bind(this));
+                }
+
+                // Clear document
+                const clearBtn = document.getElementById('clearDocument');
+                if (clearBtn) {
+                    clearBtn.addEventListener('click', this.clearDocument.bind(this));
+                }
+
+                // Image preview
+                const imageInput = document.getElementById('projectImage');
+                if (imageInput) {
+                    imageInput.addEventListener('change', this.handleImagePreview.bind(this));
+                }
+
+                // Menu toggle
+                const menuButton = document.querySelector('header button');
+                const menu = document.getElementById('menu');
+                
+                if (menuButton && menu) {
+                    menuButton.addEventListener('click', function() {
+                        menu.hidden = !menu.hidden;
+                    });
+                }
+                
+                // Close menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (menu && !menu.hidden && !menu.contains(event.target) && 
+                        menuButton && !menuButton.contains(event.target)) {
+                        menu.hidden = true;
+                    }
+                });
+
+                // Set active nav link
+                const currentPage = window.location.pathname.split('/').pop();
+                const menuLinks = document.querySelectorAll('#menu a');
+                
+                menuLinks.forEach(link => {
+                    if (link.getAttribute('href') === currentPage) {
+                        link.classList.add('active');
+                    }
+                });
+            },
+
+            handleDocumentSave: function(e) {
+                e.preventDefault();
+
+                const projectName = document.getElementById('projectName').value;
+                const fileExtension = document.getElementById('fileExtension').value;
+                const description = document.getElementById('projectDescription').value;
+                const content = document.getElementById('documentContent').value;
+                const imageInput = document.getElementById('projectImage');
+                
+                if (!projectName || !fileExtension || !content) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+
+                // Convert image to base64 if provided
+                let imageData = null;
+                if (imageInput.files && imageInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        imageData = e.target.result;
+                        this.saveProject(projectName, description, fileExtension, content, imageData);
+                    };
+                    reader.readAsDataURL(imageInput.files[0]);
+                } else {
+                    this.saveProject(projectName, description, fileExtension, content, null);
+                }
+            },
+
+            saveProject: function(name, description, type, code, image) {
+                // Show browser storage warning
+                if (!confirm('Remember: Your projects are stored in your browser. If you clear browser data, you will lose all projects. Make sure to download important files regularly.\n\nSave this project?')) {
+                    return;
+                }
+
+                const project = ProjectManager.createProject(name, description, type, code, image);
+                
+                alert('Project saved successfully! You can view it in your Dashboard.');
+                
+                // Reset form
+                document.getElementById('documentForm').reset();
+                document.getElementById('imagePreview').innerHTML = '<span>No image selected</span>';
+                document.getElementById('documentContent').value = '';
+            },
+
+            downloadDocument: function() {
+                const projectName = document.getElementById('projectName').value;
+                const fileExtension = document.getElementById('fileExtension').value;
+                const content = document.getElementById('documentContent').value;
+
+                if (!projectName || !fileExtension || !content) {
+                    alert('Please fill in all required fields and add some content');
+                    return;
+                }
+
+                // Show browser storage warning
+                if (!confirm('Remember: Your projects are stored in your browser. If you clear browser data, you will lose all projects. Make sure to download important files regularly.\n\nDownload this file?')) {
+                    return;
+                }
+
+                const blob = new Blob([content], { type: 'text/plain' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                
+                // Set filename with extension
+                let filename = projectName;
+                if (!filename.includes('.')) {
+                    filename += '.' + fileExtension;
+                }
+                a.download = filename;
+                
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            },
+
+            clearDocument: function() {
+                if (confirm('Are you sure you want to clear all content?')) {
+                    document.getElementById('documentForm').reset();
+                    document.getElementById('imagePreview').innerHTML = '<span>No image selected</span>';
+                    document.getElementById('documentContent').value = '';
+                }
+            },
+
+            handleImagePreview: function(e) {
+                const file = e.target.files[0];
+                const preview = document.getElementById('imagePreview');
+                
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.innerHTML = '<span>No image selected</span>';
+                }
+            }
+        };
+
+        // Initialize workspace when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            Workspace.init();
+        });
+
+        function logout() {
+            localStorage.removeItem('techUpdatesUser');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
