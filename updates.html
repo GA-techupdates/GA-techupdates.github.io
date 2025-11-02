@@ -26,6 +26,7 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
+            cursor: pointer;
         }
 
         .scroll-to-bottom-btn {
@@ -76,6 +77,13 @@
             line-height: 1.5;
         }
 
+        .update-image {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid var(--medium-gray);
+        }
+
         .update-meta {
             display: flex;
             justify-content: space-between;
@@ -86,7 +94,19 @@
         .update-reactions {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
+        }
+
+        .reaction {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+
+        .reaction i {
+            color: #e74c3c;
         }
 
         .update-actions {
@@ -201,7 +221,6 @@
             </div>
         </div>
 
-        <!-- Notification Banner -->
         <div class="notification-banner" id="notificationBanner" style="display: none;">
             <i class="fas fa-bell"></i>
             <div>
@@ -210,16 +229,19 @@
         </div>
 
         <div class="content-section" id="updatesContainer">
-            <!-- Update 1 -->
             <div class="update unread" data-update-id="1">
                 <div class="update-content">
                     <div class="update-text">
                         We're gonna build a telegram bot, let's name it SOS BOT 7
                     </div>
+                    <img src="logo.png" alt="Telegram Bot" class="update-image">
                 </div>
                 <div class="update-meta">
                     <div class="update-reactions">
-                        <span>💬 3</span>
+                        <div class="reaction">
+                            <i class="fas fa-heart"></i>
+                            <span class="reaction-count">24</span>
+                        </div>
                     </div>
                     <div class="update-actions">
                         <button class="delete-update-btn" data-update-id="1">
@@ -232,7 +254,6 @@
                 </div>
             </div>
 
-            <!-- Update 2 -->
             <div class="update unread" data-update-id="2">
                 <div class="update-content">
                     <div class="update-text">
@@ -242,8 +263,10 @@
                 </div>
                 <div class="update-meta">
                     <div class="update-reactions">
-                        <span>💬 7</span>
-                        <span>👍 12</span>
+                        <div class="reaction">
+                            <i class="fas fa-heart"></i>
+                            <span class="reaction-count">12</span>
+                        </div>
                     </div>
                     <div class="update-actions">
                         <button class="delete-update-btn" data-update-id="2">
@@ -256,7 +279,6 @@
                 </div>
             </div>
 
-            <!-- Update 3 -->
             <div class="update unread" data-update-id="3">
                 <div class="update-content">
                     <div class="update-text">
@@ -271,7 +293,10 @@
                 </div>
                 <div class="update-meta">
                     <div class="update-reactions">
-                        <span>💬 5</span>
+                        <div class="reaction">
+                            <i class="fas fa-heart"></i>
+                            <span class="reaction-count">8</span>
+                        </div>
                     </div>
                     <div class="update-actions">
                         <button class="delete-update-btn" data-update-id="3">
@@ -284,16 +309,18 @@
                 </div>
             </div>
 
-            <!-- Update 4 -->
             <div class="update unread" data-update-id="4">
                 <div class="update-content">
                     <div class="update-text">
-                        Someone reacted with 💬 to an update
+                        Someone liked an update
                     </div>
                 </div>
                 <div class="update-meta">
                     <div class="update-reactions">
-                        <span>💬 1</span>
+                        <div class="reaction">
+                            <i class="fas fa-heart"></i>
+                            <span class="reaction-count">5</span>
+                        </div>
                     </div>
                     <div class="update-actions">
                         <button class="delete-update-btn" data-update-id="4">
@@ -306,7 +333,6 @@
                 </div>
             </div>
 
-            <!-- Update 5 -->
             <div class="update unread" data-update-id="5">
                 <div class="update-content">
                     <div class="update-text">
@@ -315,8 +341,10 @@
                 </div>
                 <div class="update-meta">
                     <div class="update-reactions">
-                        <span>💬 2</span>
-                        <span>👍 8</span>
+                        <div class="reaction">
+                            <i class="fas fa-heart"></i>
+                            <span class="reaction-count">15</span>
+                        </div>
                     </div>
                     <div class="update-actions">
                         <button class="delete-update-btn" data-update-id="5">
@@ -330,7 +358,6 @@
             </div>
         </div>
 
-        <!-- Empty State -->
         <div class="empty-updates" id="emptyUpdates" style="display: none;">
             <i class="fas fa-bell-slash"></i>
             <h3>No Updates Available</h3>
