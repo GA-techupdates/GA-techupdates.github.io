@@ -1,5 +1,4 @@
 # Tech Updates
-![iframe](iframe.svg)
 <div align="center">
 
 [![Tech Updates Logo](logo.png)](https://ga-techupdates.github.io)
