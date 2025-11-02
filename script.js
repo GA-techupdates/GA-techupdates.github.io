@@ -1,3 +1,22 @@
+// Favicon injection - Add this at the very top of script.js
+(function() {
+    'use strict';
+    
+    const favicon = document.createElement('link');
+    favicon.rel = 'icon';
+    favicon.type = 'image/x-icon';
+    favicon.href = 'favicon.ico';
+    
+    const appleIcon = document.createElement('link');
+    appleIcon.rel = 'apple-touch-icon';
+    appleIcon.sizes = '180x180';
+    appleIcon.href = 'favicon.ico';
+    
+    document.head.appendChild(favicon);
+    document.head.appendChild(appleIcon);
+    
+})();
+
 // Authentication and common functionality
 
 // Check if user is logged in
