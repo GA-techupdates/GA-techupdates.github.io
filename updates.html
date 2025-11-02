@@ -210,7 +210,124 @@
         </div>
 
         <div class="content-section" id="updatesContainer">
-            <!-- Updates will be loaded here dynamically -->
+            <!-- Update 1 -->
+            <div class="update unread" data-update-id="1">
+                <div class="update-content">
+                    <div class="update-text">
+                        We're gonna build a telegram bot, let's name it SOS BOT 7
+                    </div>
+                </div>
+                <div class="update-meta">
+                    <div class="update-reactions">
+                        <span>💬 3</span>
+                    </div>
+                    <div class="update-actions">
+                        <button class="delete-update-btn" data-update-id="1">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                        <a href="#" class="view-whatsapp-btn">
+                            <i class="fab fa-whatsapp"></i> View update
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update 2 -->
+            <div class="update unread" data-update-id="2">
+                <div class="update-content">
+                    <div class="update-text">
+                        First Come, first served<br>
+                        Bot, then AI
+                    </div>
+                </div>
+                <div class="update-meta">
+                    <div class="update-reactions">
+                        <span>💬 7</span>
+                        <span>👍 12</span>
+                    </div>
+                    <div class="update-actions">
+                        <button class="delete-update-btn" data-update-id="2">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                        <a href="#" class="view-whatsapp-btn">
+                            <i class="fab fa-whatsapp"></i> View update
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update 3 -->
+            <div class="update unread" data-update-id="3">
+                <div class="update-content">
+                    <div class="update-text">
+                        Telegram/Discord AI Bot - Integrate OpenAI to answer questions, summarize links, or moderate chats.
+                    </div>
+                    <div class="update-text">
+                        Real-Time Collaborative Todo App - Like Notion, but simpler. Use Supabase or Firebase for live updates.
+                    </div>
+                    <div class="update-text">
+                        * 100 Habit Tracking ... Read more
+                    </div>
+                </div>
+                <div class="update-meta">
+                    <div class="update-reactions">
+                        <span>💬 5</span>
+                    </div>
+                    <div class="update-actions">
+                        <button class="delete-update-btn" data-update-id="3">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                        <a href="#" class="view-whatsapp-btn">
+                            <i class="fab fa-whatsapp"></i> View update
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update 4 -->
+            <div class="update unread" data-update-id="4">
+                <div class="update-content">
+                    <div class="update-text">
+                        Someone reacted with 💬 to an update
+                    </div>
+                </div>
+                <div class="update-meta">
+                    <div class="update-reactions">
+                        <span>💬 1</span>
+                    </div>
+                    <div class="update-actions">
+                        <button class="delete-update-btn" data-update-id="4">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                        <a href="#" class="view-whatsapp-btn">
+                            <i class="fab fa-whatsapp"></i> View update
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Update 5 -->
+            <div class="update unread" data-update-id="5">
+                <div class="update-content">
+                    <div class="update-text">
+                        on user behavior.
+                    </div>
+                </div>
+                <div class="update-meta">
+                    <div class="update-reactions">
+                        <span>💬 2</span>
+                        <span>👍 8</span>
+                    </div>
+                    <div class="update-actions">
+                        <button class="delete-update-btn" data-update-id="5">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                        <a href="#" class="view-whatsapp-btn">
+                            <i class="fab fa-whatsapp"></i> View update
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Empty State -->
@@ -225,316 +342,7 @@
         &copy; 2025 Tech Updates. All rights reserved
     </footer>
 
-    <script>
-        // Updates Management System
-        const UpdatesManager = {
-            // Initialize updates system
-            init: function() {
-                this.checkAuth();
-                this.loadUpdates();
-                this.setupEventListeners();
-                this.setupScrollObserver();
-                this.checkForNewUpdates();
-            },
-
-            // Check authentication
-            checkAuth: function() {
-                const user = localStorage.getItem('techUpdatesUser');
-                if (!user) {
-                    window.location.href = 'login.html';
-                    return;
-                }
-            },
-
-            // Sample updates data
-            getDefaultUpdates: function() {
-                return [
-                    {
-                        id: 1,
-                        content: "We're gonna build a telegram bot, let's name it SOS BOT 7",
-                        reactions: { comments: 3 },
-                        isRead: false
-                    },
-                    {
-                        id: 2,
-                        content: "First Come, first served<br>Bot, then AI",
-                        reactions: { comments: 7, likes: 12 },
-                        isRead: false
-                    },
-                    {
-                        id: 3,
-                        content: "Telegram/Discord AI Bot - Integrate OpenAI to answer questions, summarize links, or moderate chats.<br><br>Real-Time Collaborative Todo App - Like Notion, but simpler. Use Supabase or Firebase for live updates.<br><br>* 100 Habit Tracking ... Read more",
-                        reactions: { comments: 5 },
-                        isRead: false
-                    },
-                    {
-                        id: 4,
-                        content: "Someone reacted with 💬 to an update",
-                        reactions: { comments: 1 },
-                        isRead: false
-                    },
-                    {
-                        id: 5,
-                        content: "on user behavior.",
-                        reactions: { comments: 2, likes: 8 },
-                        isRead: false
-                    }
-                ];
-            },
-
-            // Get updates from localStorage
-            getUpdates: function() {
-                const updates = localStorage.getItem('techUpdates');
-                if (!updates) {
-                    const defaultUpdates = this.getDefaultUpdates();
-                    this.saveUpdates(defaultUpdates);
-                    return defaultUpdates;
-                }
-                return JSON.parse(updates);
-            },
-
-            // Save updates to localStorage
-            saveUpdates: function(updates) {
-                localStorage.setItem('techUpdates', JSON.stringify(updates));
-            },
-
-            // Get deleted update IDs
-            getDeletedUpdates: function() {
-                const deleted = localStorage.getItem('deletedUpdates');
-                return deleted ? JSON.parse(deleted) : [];
-            },
-
-            // Save deleted update IDs
-            saveDeletedUpdates: function(deletedIds) {
-                localStorage.setItem('deletedUpdates', JSON.stringify(deletedIds));
-            },
-
-            // Mark update as read
-            markAsRead: function(updateId) {
-                const updates = this.getUpdates();
-                const updatedUpdates = updates.map(update => {
-                    if (update.id === updateId) {
-                        return { ...update, isRead: true };
-                    }
-                    return update;
-                });
-                this.saveUpdates(updatedUpdates);
-                this.updateUnreadCount();
-            },
-
-            // Delete an update
-            deleteUpdate: function(updateId) {
-                const deletedIds = this.getDeletedUpdates();
-                if (!deletedIds.includes(updateId)) {
-                    deletedIds.push(updateId);
-                    this.saveDeletedUpdates(deletedIds);
-                    
-                    // Hide the update immediately
-                    const updateElement = document.querySelector(`[data-update-id="${updateId}"]`);
-                    if (updateElement) {
-                        updateElement.classList.add('deleted');
-                    }
-                    
-                    this.checkEmptyState();
-                }
-            },
-
-            // Load and render updates
-            loadUpdates: function() {
-                const updates = this.getUpdates();
-                const deletedIds = this.getDeletedUpdates();
-                const container = document.getElementById('updatesContainer');
-                
-                // Filter out deleted updates
-                const visibleUpdates = updates.filter(update => !deletedIds.includes(update.id));
-                
-                if (visibleUpdates.length === 0) {
-                    this.showEmptyState();
-                    return;
-                }
-                
-                // Render updates
-                container.innerHTML = visibleUpdates.map(update => `
-                    <div class="update ${update.isRead ? '' : 'unread'}" data-update-id="${update.id}">
-                        <div class="update-content">
-                            <div class="update-text">${update.content}</div>
-                        </div>
-                        <div class="update-meta">
-                            <div class="update-reactions">
-                                ${update.reactions.comments ? `<span>💬 ${update.reactions.comments}</span>` : ''}
-                                ${update.reactions.likes ? `<span>👍 ${update.reactions.likes}</span>` : ''}
-                            </div>
-                            <div class="update-actions">
-                                <button class="delete-update-btn" onclick="UpdatesManager.deleteUpdate(${update.id})">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                                <a href="#" class="view-whatsapp-btn">
-                                    <i class="fab fa-whatsapp"></i> View update
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-                
-                this.updateUnreadCount();
-                this.hideEmptyState();
-            },
-
-            // Update unread count badge
-            updateUnreadCount: function() {
-                const updates = this.getUpdates();
-                const deletedIds = this.getDeletedUpdates();
-                const unreadUpdates = updates.filter(update => 
-                    !update.isRead && !deletedIds.includes(update.id)
-                );
-                
-                const unreadCount = unreadUpdates.length;
-                const badge = document.getElementById('unreadBadge');
-                const countElement = document.getElementById('unreadCount');
-                
-                if (unreadCount > 0) {
-                    badge.style.display = 'inline-flex';
-                    countElement.textContent = unreadCount;
-                } else {
-                    badge.style.display = 'none';
-                }
-            },
-
-            // Show empty state
-            showEmptyState: function() {
-                document.getElementById('emptyUpdates').style.display = 'block';
-                document.getElementById('updatesContainer').style.display = 'none';
-            },
-
-            // Hide empty state
-            hideEmptyState: function() {
-                document.getElementById('emptyUpdates').style.display = 'none';
-                document.getElementById('updatesContainer').style.display = 'block';
-            },
-
-            // Check if updates container is empty
-            checkEmptyState: function() {
-                const updates = this.getUpdates();
-                const deletedIds = this.getDeletedUpdates();
-                const visibleUpdates = updates.filter(update => !deletedIds.includes(update.id));
-                
-                if (visibleUpdates.length === 0) {
-                    this.showEmptyState();
-                }
-            },
-
-            // Setup event listeners
-            setupEventListeners: function() {
-                // Scroll to bottom button
-                document.getElementById('scrollToBottom').addEventListener('click', () => {
-                    window.scrollTo({
-                        top: document.body.scrollHeight,
-                        behavior: 'smooth'
-                    });
-                });
-
-                // Menu toggle
-                const menuButton = document.querySelector('header button');
-                const menu = document.getElementById('menu');
-                
-                if (menuButton && menu) {
-                    menuButton.addEventListener('click', function() {
-                        menu.hidden = !menu.hidden;
-                    });
-                }
-                
-                // Close menu when clicking outside
-                document.addEventListener('click', function(event) {
-                    if (menu && !menu.hidden && !menu.contains(event.target) && 
-                        menuButton && !menuButton.contains(event.target)) {
-                        menu.hidden = true;
-                    }
-                });
-
-                // Set active nav link
-                const currentPage = window.location.pathname.split('/').pop();
-                const menuLinks = document.querySelectorAll('#menu a');
-                
-                menuLinks.forEach(link => {
-                    if (link.getAttribute('href') === currentPage) {
-                        link.classList.add('active');
-                    }
-                });
-            },
-
-            // Setup Intersection Observer for marking updates as read
-            setupScrollObserver: function() {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const updateId = parseInt(entry.target.getAttribute('data-update-id'));
-                            this.markAsRead(updateId);
-                            entry.target.classList.remove('unread');
-                        }
-                    });
-                }, {
-                    threshold: 0.5
-                });
-
-                // Observe all update elements
-                const updateElements = document.querySelectorAll('.update');
-                updateElements.forEach(element => {
-                    observer.observe(element);
-                });
-            },
-
-            // Check for new updates (simulated - in real app, this would check a server)
-            checkForNewUpdates: function() {
-                // Simulate checking for new updates
-                const lastUpdateCheck = localStorage.getItem('lastUpdateCheck');
-                const now = Date.now();
-                
-                if (!lastUpdateCheck || (now - parseInt(lastUpdateCheck)) > 300000) { // 5 minutes
-                    this.showNotificationBanner();
-                }
-                
-                localStorage.setItem('lastUpdateCheck', now.toString());
-            },
-
-            // Show notification banner
-            showNotificationBanner: function() {
-                const banner = document.getElementById('notificationBanner');
-                banner.style.display = 'flex';
-                
-                // Auto-hide after 5 seconds
-                setTimeout(() => {
-                    banner.style.display = 'none';
-                }, 5000);
-            },
-
-            // Simulate global notifications (this would require a backend in production)
-            setupGlobalNotifications: function() {
-                // This is a simplified version - in production, you'd use a service worker
-                // and push notifications for cross-device notifications
-                
-                if ('Notification' in window && Notification.permission === 'granted') {
-                    // Check for new updates periodically
-                    setInterval(() => {
-                        this.checkForNewUpdates();
-                    }, 300000); // Check every 5 minutes
-                }
-            }
-        };
-
-        // Request notification permission
-        if ('Notification' in window) {
-            Notification.requestPermission();
-        }
-
-        // Initialize updates manager when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            UpdatesManager.init();
-        });
-
-        function logout() {
-            localStorage.removeItem('techUpdatesUser');
-            window.location.href = 'login.html';
-        }
-    </script>
+    <script src="script.js"></script>
+    <script src="updates.js"></script>
 </body>
 </html>
